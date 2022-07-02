@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ludo_liubice/external/website.dart';
+import 'package:ludo_liubice/ui/post.dart';
 
 final postsProvider = StateProvider<List<Post>>((ref) => [Post(title: "")]);
 

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ludo_liubice/assets/locale_keys.dart';
 import 'package:ludo_liubice/external/website.dart';
 import 'package:ludo_liubice/state_management/posts.dart';
+import 'package:ludo_liubice/ui/post.dart';
 
 class MyHomePage extends ConsumerWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -23,28 +24,5 @@ class MyHomePage extends ConsumerWidget {
         ],
       ),
     );
-  }
-}
-
-class PostWidget extends StatelessWidget {
-  final Post post;
-
-  const PostWidget({Key? key, required this.post}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    if (post.imageRatio != null) {
-      return Column(
-        children: [
-          AspectRatio(
-            aspectRatio: post.imageRatio!,
-            child: post.image,
-          ),
-          Text(post.title),
-        ],
-      );
-    } else {
-      return Text(post.title);
-    }
   }
 }
