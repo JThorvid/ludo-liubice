@@ -18,21 +18,22 @@ List<Post> getPosts(String body) {
   html.Document doc = parse(body);
   List htmlPosts = doc.getElementsByClassName("post-content");
   for (html.Element element in htmlPosts) {
-    //List<html.Element> links = images[0].getElementsByTagName("a");
     PostImage? postImage = getImage(element);
-    String? title = getTitle(element);
-    if (title != null) {
-      posts.add(Post(title: title, postImage: postImage));
+    PostHeader? header = getHeader(element);
+    if (header != null) {
+      posts.add(Post(postHeader: header, postImage: postImage));
     }
   }
   return posts;
 }
 
-String? getTitle(html.Element element) {
+PostHeader? getHeader(html.Element element) {
   try {
     html.Element header = element.getElementsByClassName("entry-header")[0];
     html.Element text = header.getElementsByClassName("screen-reader-text")[0];
-    return text.text;
+    List<html.Element> links = header.getElementsByTagName("a");
+    Map<Object, String> linkAttributes = links[0].attributes;
+    return PostHeader(text.text, linkAttributes["href"]!);
   } catch (e) {
     return null;
   }

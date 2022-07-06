@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:ludo_liubice/external/website.dart';
+import 'package:ludo_liubice/external/home_page.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:ludo_liubice/ui/post.dart';
 
@@ -41,8 +41,11 @@ main() {
   var doc = parse(entry);
   var element = doc.getElementsByClassName("post-content")[0];
 
-  test("getTitle(element) works", () {
-    expect(getTitle(element), "Familienspielen in Moisling");
+  test("getHeader(element) works", () {
+    PostHeader expectedHeader = PostHeader("Familienspielen in Moisling",
+        "https://www.ludo-liubice.de/2022/06/familien-spielen-am-sonntag-17-november-2019/");
+    expect(getHeader(element)?.title, expectedHeader.title);
+    expect(getHeader(element)?.link, expectedHeader.link);
   });
 
   test("getImage(element) works", () {
@@ -62,7 +65,8 @@ main() {
       getPosts(entry),
       [
         Post(
-          title: "Familienspielen in Moisling",
+          postHeader: PostHeader("Familienspielen in Moisling",
+              "https://www.ludo-liubice.de/2022/06/familien-spielen-am-sonntag-17-november-2019/"),
           postImage: PostImage(
             image: Image.network(
               "https://www.ludo-liubice.de/wp-content/uploads/2022/04/Gemeindehaus-Wichern.png",

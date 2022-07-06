@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ludo_liubice/assets/locale_keys.dart';
-import 'package:ludo_liubice/external/website.dart';
+import 'package:ludo_liubice/external/home_page.dart';
 import 'package:ludo_liubice/state_management/posts.dart';
 import 'package:ludo_liubice/ui/post.dart';
 

@@ -25,21 +25,25 @@ class PostWidget extends StatelessWidget {
 
 class Post {
   String title;
+  String link;
   Image? image;
   double? imageRatio;
 
   Post({
-    required this.title,
+    required PostHeader postHeader,
     PostImage? postImage,
-  })  : image = postImage?.image,
+  })  : title = postHeader.title,
+        link = postHeader.link,
+        image = postImage?.image,
         imageRatio = postImage?.imageRatio;
 
   @override
   bool operator ==(covariant Post other) {
     bool titleEquals = title == other.title;
+    bool linkEquals = link == other.link;
     bool ratioEquals = imageRatio == other.imageRatio;
     bool imageEquals = image.toString() == other.image.toString();
-    return titleEquals && ratioEquals && imageEquals;
+    return titleEquals && linkEquals && ratioEquals && imageEquals;
   }
 }
 
@@ -54,5 +58,19 @@ class PostImage {
     bool ratioEquals = imageRatio == other.imageRatio;
     bool imageEquals = image.toString() == other.image.toString();
     return ratioEquals && imageEquals;
+  }
+}
+
+class PostHeader {
+  String title;
+  String link;
+
+  PostHeader(this.title, this.link);
+
+  @override
+  bool operator ==(covariant PostHeader other) {
+    bool titleEquals = title == other.title;
+    bool linkEquals = link == other.link;
+    return titleEquals && linkEquals;
   }
 }
