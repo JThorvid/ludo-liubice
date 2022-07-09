@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ludo_liubice/data/article.dart';
+import 'package:ludo_liubice/state_management/article.dart';
 import 'package:ludo_liubice/ui/article_page.dart';
 
 class ArticleWidget extends StatelessWidget {
@@ -46,7 +47,8 @@ class ArticleWidget extends StatelessWidget {
   }
 }
 
-Future<void> goToArticle(BuildContext context, Article post) async {
-  Navigator.push(context,
-      MaterialPageRoute(builder: (context) => ArticlePage(article: post)));
+Future<void> goToArticle(BuildContext context, Article article) async {
+  currentArticle = article;
+  Navigator.push(
+      context, MaterialPageRoute(builder: (context) => const ArticlePage()));
 }

@@ -8,12 +8,19 @@ class Article {
   double? imageRatio;
 
   Article({
-    required ArticleHeader postHeader,
+    required ArticleHeader articleHeader,
     ArticleImage? articleImage,
-  })  : title = postHeader.title,
-        link = postHeader.link,
+  })  : title = articleHeader.title,
+        link = articleHeader.link,
         image = articleImage?.image,
         imageRatio = articleImage?.imageRatio;
+
+  Article.copy(Article article)
+      : title = article.title,
+        link = article.link,
+        content = article.content,
+        image = article.image,
+        imageRatio = article.imageRatio;
 
   @override
   bool operator ==(covariant Article other) {
@@ -21,8 +28,30 @@ class Article {
     bool linkEquals = link == other.link;
     bool ratioEquals = imageRatio == other.imageRatio;
     bool imageEquals = image.toString() == other.image.toString();
-    return titleEquals && linkEquals && ratioEquals && imageEquals;
+    bool contentEquals = content == other.content;
+    return titleEquals &&
+        linkEquals &&
+        ratioEquals &&
+        imageEquals &&
+        contentEquals;
   }
+}
+
+class DummyArticle implements Article {
+  @override
+  String? content;
+
+  @override
+  Image? image;
+
+  @override
+  double? imageRatio;
+
+  @override
+  String link = "";
+
+  @override
+  String title = "";
 }
 
 class ArticleImage {
