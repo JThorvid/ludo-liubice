@@ -2,44 +2,44 @@ import 'package:flutter/material.dart';
 import 'package:html/dom.dart' as html;
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' show parse;
-import 'package:ludo_liubice/data/post.dart';
+import 'package:ludo_liubice/data/article.dart';
 
-Future<List<Post>> getHomePage() async {
+Future<List<Article>> getHomePage() async {
   var url = Uri.parse('https://www.ludo-liubice.de/');
   var response = await http.post(url);
   if (response.statusCode == 200) {
-    return getPosts(response.body);
+    return getArticles(response.body);
   }
   return [];
 }
 
-List<Post> getPosts(String body) {
-  List<Post> posts = [];
+List<Article> getArticles(String body) {
+  List<Article> articles = [];
   html.Document doc = parse(body);
-  List htmlPosts = doc.getElementsByClassName("post-content");
-  for (html.Element element in htmlPosts) {
-    PostImage? postImage = getImage(element);
-    PostHeader? header = getHeader(element);
+  List htmlArticles = doc.getElementsByClassName("post-content");
+  for (html.Element element in htmlArticles) {
+    ArticleImage? articleImage = getImage(element);
+    ArticleHeader? header = getHeader(element);
     if (header != null) {
-      posts.add(Post(postHeader: header, postImage: postImage));
+      articles.add(Article(postHeader: header, articleImage: articleImage));
     }
   }
-  return posts;
+  return articles;
 }
 
-PostHeader? getHeader(html.Element element) {
+ArticleHeader? getHeader(html.Element element) {
   try {
     html.Element header = element.getElementsByClassName("entry-header")[0];
     html.Element text = header.getElementsByClassName("screen-reader-text")[0];
     List<html.Element> links = header.getElementsByTagName("a");
     Map<Object, String> linkAttributes = links[0].attributes;
-    return PostHeader(text.text, linkAttributes["href"]!);
+    return ArticleHeader(text.text, linkAttributes["href"]!);
   } catch (e) {
     return null;
   }
 }
 
-PostImage? getImage(html.Element element) {
+ArticleImage? getImage(html.Element element) {
   try {
     html.Element htmlImage =
         element.getElementsByClassName("featured-image")[0];
@@ -54,7 +54,7 @@ PostImage? getImage(html.Element element) {
   return null;
 }
 
-PostImage? _createImage(Map<Object, String> imageAttributes) {
+ArticleImage? _createImage(Map<Object, String> imageAttributes) {
   try {
     Image image = Image.network(imageAttributes["src"]!);
     double? imageRatio;
@@ -62,25 +62,25 @@ PostImage? _createImage(Map<Object, String> imageAttributes) {
       imageRatio = double.parse(imageAttributes["width"]!) /
           double.parse(imageAttributes["height"]!);
     }
-    return PostImage(image: image, imageRatio: imageRatio);
+    return ArticleImage(image: image, imageRatio: imageRatio);
   } catch (e) {
     return null;
     // couldn't parse image
   }
 }
 
-Future<Post> addContent(Post post) async {
-  var url = Uri.parse(post.link);
+Future<Article> addContent(Article article) async {
+  var url = Uri.parse(article.link);
   var response = await http.post(url);
   if (response.statusCode == 200) {
-    addResponse(response.body, post);
+    addResponse(response.body, article);
   }
-  return post;
+  return article;
 }
 
-void addResponse(String body, Post post) {
+void addResponse(String body, Article article) {
   html.Document doc = parse(body);
   html.Element content = doc.getElementsByClassName("entry-content")[0];
-  post.content = content.innerHtml
+  article.content = content.innerHtml
       .split("<div class=\"sharedaddy sd-sharing-enabled\">")[0];
 }

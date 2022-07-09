@@ -1,7 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ludo_liubice/data/post.dart';
+import 'package:ludo_liubice/data/article.dart';
 
-final multiplePostsProvider = StateProvider<List<Post>>((ref) => []);
+final multipleArticlesProvider = StateProvider<List<Article>>((ref) => []);
 
-void updateMultiplePosts(WidgetRef ref, Future<List<Post>> futurePosts) async =>
-    ref.read(multiplePostsProvider.state).state = await futurePosts;
+void updateMultipleArticles(
+        WidgetRef ref, Future<List<Article>> futurePosts) async =>
+    ref.read(multipleArticlesProvider.state).state = await futurePosts;

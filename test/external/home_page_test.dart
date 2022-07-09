@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ludo_liubice/external/home_page.dart';
 import 'package:html/parser.dart' show parse;
-import 'package:ludo_liubice/data/post.dart';
+import 'package:ludo_liubice/data/article.dart';
 
-const String entry = """
+const String htmlEntry = """
 <article id="post-12377"  class="post-content post-12377 post type-post status-publish format-standard has-post-thumbnail hentry category-allgemein category-familienspielen category-veranstaltungen tag-brettspiel tag-familien tag-gesellschaft tag-kartenspiel tag-kinderspiel tag-liubice tag-ludo tag-spass tag-spielen">
 
 	
@@ -36,7 +36,7 @@ const String entry = """
 			</footer><!-- .entry-footer -->
 </article><!-- #post-## -->
 """;
-const String article = """
+const String htmlArticle = """
 <article id="post-12377"  class="post-content post-12377 post type-post status-publish format-standard has-post-thumbnail hentry category-allgemein category-familienspielen category-veranstaltungen tag-brettspiel tag-familien tag-gesellschaft tag-kartenspiel tag-kinderspiel tag-liubice tag-ludo tag-spass tag-spielen">
 
 	
@@ -87,11 +87,11 @@ const String article = """
 """;
 
 main() {
-  var doc = parse(entry);
-  var element = doc.getElementsByClassName("post-content")[0];
+  var doc = parse(htmlEntry);
+  var element = doc.getElementsByClassName("article-content")[0];
 
   test("getHeader(element) works", () {
-    PostHeader expectedHeader = PostHeader("Familienspielen in Moisling",
+    ArticleHeader expectedHeader = ArticleHeader("Familienspielen in Moisling",
         "https://www.ludo-liubice.de/2022/06/familien-spielen-am-sonntag-17-november-2019/");
     expect(getHeader(element)?.title, expectedHeader.title);
     expect(getHeader(element)?.link, expectedHeader.link);
@@ -100,7 +100,7 @@ main() {
   test("getImage(element) works", () {
     expect(
       getImage(element),
-      PostImage(
+      ArticleImage(
         image: Image.network(
           "https://www.ludo-liubice.de/wp-content/uploads/2022/04/Gemeindehaus-Wichern.png",
         ),
@@ -109,14 +109,14 @@ main() {
     );
   });
 
-  test("getPosts(entry) works", () {
+  test("getArticles(entry) works", () {
     expect(
-      getPosts(entry),
+      getArticles(htmlEntry),
       [
-        Post(
-          postHeader: PostHeader("Familienspielen in Moisling",
+        Article(
+          postHeader: ArticleHeader("Familienspielen in Moisling",
               "https://www.ludo-liubice.de/2022/06/familien-spielen-am-sonntag-17-november-2019/"),
-          postImage: PostImage(
+          articleImage: ArticleImage(
             image: Image.network(
               "https://www.ludo-liubice.de/wp-content/uploads/2022/04/Gemeindehaus-Wichern.png",
             ),
@@ -127,14 +127,14 @@ main() {
     );
   });
 
-  test("addContent(post) works", () {
-    Post post = Post(
-      postHeader: PostHeader("Familienspielen in Moisling",
+  test("addContent(article) works", () {
+    Article article = Article(
+      postHeader: ArticleHeader("Familienspielen in Moisling",
           "https://www.ludo-liubice.de/2022/06/familien-spielen-am-sonntag-17-november-2019/"),
     );
-    addResponse(article, post);
+    addResponse(htmlArticle, article);
     expect(
-      post.content,
+      article.content,
       '\n'
       '\t\t\t\t<p></p>\n'
       '<p>Einmal im Monat, immer am <b>Sonntag von 15:00 bis 18:00 Uhr </b>veranstaltet der Lübecker Spieleverein Ludo Liubice ein <b>„Familienspielen am Sonntag“</b> und bietet Alternativen für Kinder zu elektronischen Medien.</p>\n'

@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 
-class Post {
+class Article {
   String title;
   String? content;
   String link;
   Image? image;
   double? imageRatio;
 
-  Post({
-    required PostHeader postHeader,
-    PostImage? postImage,
+  Article({
+    required ArticleHeader postHeader,
+    ArticleImage? articleImage,
   })  : title = postHeader.title,
         link = postHeader.link,
-        image = postImage?.image,
-        imageRatio = postImage?.imageRatio;
+        image = articleImage?.image,
+        imageRatio = articleImage?.imageRatio;
 
   @override
-  bool operator ==(covariant Post other) {
+  bool operator ==(covariant Article other) {
     bool titleEquals = title == other.title;
     bool linkEquals = link == other.link;
     bool ratioEquals = imageRatio == other.imageRatio;
@@ -25,28 +25,28 @@ class Post {
   }
 }
 
-class PostImage {
+class ArticleImage {
   Image image;
   double? imageRatio;
 
-  PostImage({required this.image, this.imageRatio});
+  ArticleImage({required this.image, this.imageRatio});
 
   @override
-  bool operator ==(covariant PostImage other) {
+  bool operator ==(covariant ArticleImage other) {
     bool ratioEquals = imageRatio == other.imageRatio;
     bool imageEquals = image.toString() == other.image.toString();
     return ratioEquals && imageEquals;
   }
 }
 
-class PostHeader {
+class ArticleHeader {
   String title;
   String link;
 
-  PostHeader(this.title, this.link);
+  ArticleHeader(this.title, this.link);
 
   @override
-  bool operator ==(covariant PostHeader other) {
+  bool operator ==(covariant ArticleHeader other) {
     bool titleEquals = title == other.title;
     bool linkEquals = link == other.link;
     return titleEquals && linkEquals;
