@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:html/dom.dart' as html;
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' show parse;
-import 'package:ludo_liubice/ui/post.dart';
+import 'package:ludo_liubice/data/post.dart';
 
 Future<List<Post>> getHomePage() async {
   var url = Uri.parse('https://www.ludo-liubice.de/');
@@ -67,4 +67,20 @@ PostImage? _createImage(Map<Object, String> imageAttributes) {
     return null;
     // couldn't parse image
   }
+}
+
+Future<Post> addContent(Post post) async {
+  var url = Uri.parse(post.link);
+  var response = await http.post(url);
+  if (response.statusCode == 200) {
+    addResponse(response.body, post);
+  }
+  return post;
+}
+
+void addResponse(String body, Post post) {
+  html.Document doc = parse(body);
+  html.Element content = doc.getElementsByClassName("entry-content")[0];
+  post.content = content.innerHtml
+      .split("<div class=\"sharedaddy sd-sharing-enabled\">")[0];
 }

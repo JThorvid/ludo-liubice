@@ -38,6 +38,10 @@ dependencies:
   easy_localization: ^3.0.1
   http: ^0.13.4
   html: ^0.15.0
+  flutter_html: ^3.0.0-alpha.5
+
+#dependency_overrides:
+#  flutter_math_fork: ^0.6.3+1
 
 dev_dependencies:
   flutter_test:

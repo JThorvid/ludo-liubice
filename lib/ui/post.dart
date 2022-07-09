@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ludo_liubice/data/post.dart';
+import 'package:ludo_liubice/ui/article.dart';
 
 class PostWidget extends StatelessWidget {
   final Post post;
@@ -7,6 +9,13 @@ class PostWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return InkWell(
+      child: getImageAndTitle(),
+      onTap: () => goToArticle(context, post),
+    );
+  }
+
+  Widget getImageAndTitle() {
     if (post.imageRatio != null) {
       return Column(
         children: [
@@ -23,54 +32,7 @@ class PostWidget extends StatelessWidget {
   }
 }
 
-class Post {
-  String title;
-  String link;
-  Image? image;
-  double? imageRatio;
-
-  Post({
-    required PostHeader postHeader,
-    PostImage? postImage,
-  })  : title = postHeader.title,
-        link = postHeader.link,
-        image = postImage?.image,
-        imageRatio = postImage?.imageRatio;
-
-  @override
-  bool operator ==(covariant Post other) {
-    bool titleEquals = title == other.title;
-    bool linkEquals = link == other.link;
-    bool ratioEquals = imageRatio == other.imageRatio;
-    bool imageEquals = image.toString() == other.image.toString();
-    return titleEquals && linkEquals && ratioEquals && imageEquals;
-  }
-}
-
-class PostImage {
-  Image image;
-  double? imageRatio;
-
-  PostImage({required this.image, this.imageRatio});
-
-  @override
-  bool operator ==(covariant PostImage other) {
-    bool ratioEquals = imageRatio == other.imageRatio;
-    bool imageEquals = image.toString() == other.image.toString();
-    return ratioEquals && imageEquals;
-  }
-}
-
-class PostHeader {
-  String title;
-  String link;
-
-  PostHeader(this.title, this.link);
-
-  @override
-  bool operator ==(covariant PostHeader other) {
-    bool titleEquals = title == other.title;
-    bool linkEquals = link == other.link;
-    return titleEquals && linkEquals;
-  }
+Future<void> goToArticle(BuildContext context, Post post) async {
+  Navigator.push(context,
+      MaterialPageRoute(builder: (context) => ArticlePage(article: post)));
 }
