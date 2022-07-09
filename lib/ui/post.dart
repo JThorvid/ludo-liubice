@@ -10,25 +10,39 @@ class PostWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      child: getImageAndTitle(),
+      child: getImageAndTitle(context),
       onTap: () => goToArticle(context, post),
     );
   }
 
-  Widget getImageAndTitle() {
+  Widget getImageAndTitle(BuildContext context) {
     if (post.imageRatio != null) {
       return Column(
         children: [
-          AspectRatio(
-            aspectRatio: post.imageRatio!,
-            child: post.image,
-          ),
-          Text(post.title),
+          const Padding(padding: EdgeInsets.all(10)),
+          _buildTitle(context),
+          const Padding(padding: EdgeInsets.all(2)),
+          _buildImage(),
         ],
       );
     } else {
-      return Text(post.title);
+      return _buildTitle(context);
     }
+  }
+
+  Widget _buildTitle(BuildContext context) {
+    return Text(
+      post.title,
+      style: Theme.of(context).textTheme.headline5,
+      textAlign: TextAlign.center,
+    );
+  }
+
+  Widget _buildImage() {
+    return AspectRatio(
+      aspectRatio: post.imageRatio!,
+      child: post.image,
+    );
   }
 }
 
